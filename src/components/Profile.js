@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Pencil, Camera, Save, Loader2 } from "lucide-react";
 import api from "../services/api";
 
-// 🔴 BACKEND ROOT (NOT /api)
 const API_URL = "http://localhost:5000";
 
 export default function Profile() {
@@ -18,9 +17,7 @@ export default function Profile() {
     last_name: "",
     about: "",
     phone: "",
-  });
-
-  /* ================= FETCH USER ================= */
+  }):
   useEffect(() => {
     api.get("/users/me").then(res => {
       setUser(res.data);
@@ -32,8 +29,6 @@ export default function Profile() {
       });
     });
   }, []);
-
-  /* ================= SAVE ================= */
   const save = async (endpoint, payload) => {
     try {
       setLoading(true);
@@ -45,7 +40,6 @@ export default function Profile() {
     }
   };
 
-  /* ================= PROFILE PIC (FINAL FIX) ================= */
   const uploadPic = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -76,13 +70,12 @@ export default function Profile() {
       <div className="w-[440px] bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl">
         <h2 className="text-xl font-semibold text-center mb-6">My Profile</h2>
 
-        {/* ================= IMAGE ================= */}
         <div className="relative flex justify-center mb-8">
           <div className="h-28 w-28 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-900 p-[2px] overflow-hidden">
             <img
               src={
                 user.profilePic
-                  ? `${API_URL}${user.profilePic}`   // ✅ FULL URL
+                  ? `${API_URL}${user.profilePic}`   
                   : "/default-user.png"
               }
               alt="profile"
